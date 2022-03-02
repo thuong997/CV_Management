@@ -1,6 +1,8 @@
 package com.bezkoder.cv_management.Entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,7 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "jobs")
 public class JobEntity extends BaseModel{
     @Id

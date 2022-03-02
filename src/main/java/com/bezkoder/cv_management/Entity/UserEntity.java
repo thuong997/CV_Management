@@ -1,6 +1,8 @@
 package com.bezkoder.cv_management.Entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +17,8 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         })
-@Data
+@Getter
+@Setter
 public class UserEntity extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

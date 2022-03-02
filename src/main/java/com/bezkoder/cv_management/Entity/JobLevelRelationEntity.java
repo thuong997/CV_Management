@@ -1,10 +1,13 @@
 package com.bezkoder.cv_management.Entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @IdClass(JobLevelId.class)
 @Table(name = "job_level")

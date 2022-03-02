@@ -1,5 +1,7 @@
 package com.bezkoder.cv_management.Controller;
 
+import com.bezkoder.cv_management.DTO.RoleDTO;
+import com.bezkoder.cv_management.DTO.UserDTO;
 import com.bezkoder.cv_management.DTO.UserFormForUpdate;
 import com.bezkoder.cv_management.Entity.UserEntity;
 import com.bezkoder.cv_management.Service.UserService;
@@ -9,10 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/v1/accounts")
+@RequestMapping(value = "api/v1/users")
 
 public class UserController {
 
@@ -20,14 +23,27 @@ public class UserController {
     UserService userService;
 
     @GetMapping()
-    public ResponseEntity<?> getAllUser(){
+    public List<UserDTO> getAllUser(){
         List<UserEntity> userEntities = userService.getAllUserList();
-        return new ResponseEntity<List<UserService>>((MultiValueMap<String, String>) userEntities, HttpStatus.OK);
+
+        // convert to DTO
+        List<UserDTO> dtos = new ArrayList<>();
+        for (UserEntity entity : userEntities){
+            UserDTO dto = new UserDTO(entity.getEmail(), entity.getFullName(), entity.getDepEntity().getDepName(),
+                    entity.getRoles(), entity.getCreatedAt(), entity.getCreatedBy());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable(name = "accId") int accId){
-        return new ResponseEntity<>(userService.getUserByID(accId),HttpStatus.OK);
+    public UserDTO getUserById(@PathVariable(name = "userId") int userId){
+        UserEntity entity = userService.getUserByID(userId);
+
+        //convert to dto
+        UserDTO dto = new UserDTO(entity.getEmail(), entity.getFullName(), entity.getDepEntity().getDepName(),
+                entity.getRoles(), entity.getCreatedAt(), entity.getCreatedBy());
+        return dto;
     }
 
     @PutMapping("/{userId}")
